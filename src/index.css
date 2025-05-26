@@ -1,0 +1,112 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html, body, #root {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #FFFBEB; /* Tailwind's amber-50 */
+}
+
+
+@layer utilities {
+  .animate-fade-in-down {
+    animation: fadeInDown 0.8s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  .animate-bounce-slow {
+    animation: bounceSlow 1.5s infinite;
+  }
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes bounceSlow {
+    0%, 100% { transform: translateY(0);}
+    50% { transform: translateY(10px);}
+  }
+
+  .animate-zoom-in {
+    animation: zoomIn 0.7s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  .animate-fade-in-scale {
+    animation: fadeInScale 0.9s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  .animate-slide-in-right {
+    animation: slideInRight 0.7s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(60px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+   .animate-slide-in-left {
+    animation: slideInLeft 0.8s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  .animate-step-fade-in {
+    animation: stepFadeIn 0.8s cubic-bezier(0.4,0,0.2,1) both;
+  }
+  @keyframes stepFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(40px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
