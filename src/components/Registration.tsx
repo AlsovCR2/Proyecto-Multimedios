@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 const Registration = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [animate, setAnimate] = useState(false);
+  const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -19,31 +20,31 @@ const Registration = () => {
   };
 
 const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  // Mapea los nombres a los que espera el backend
-  const payload = {
-  idUsuario: "",
-  nombre: formData.name,
-  correoElectronico: formData.email,
-  numeroTelefono: formData.phone
-};
-  try {
-    const response = await fetch('https://api-backend-a4crheeqdbcxf4e3.canadacentral-01.azurewebsites.net/multimedios/api/usuarios', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    const data = await response.text();
-    if (response.ok) {
-      alert('¡Gracias por registrarte! Pronto recibirás más recetas tradicionales.');
-      setFormData({ name: '', email: '', phone: '' });
-    } else {
-      alert('Hubo un error al registrar: ' + data);
+    e.preventDefault();
+    const payload = {
+      idUsuario: "",
+      nombre: formData.name,
+      correoElectronico: formData.email,
+      numeroTelefono: formData.phone
+    };
+    try {
+      const response = await fetch('https://api-backend-a4crheeqdbcxf4e3.canadacentral-01.azurewebsites.net/multimedios/api/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.text();
+      if (response.ok) {
+        setNotification({ type: 'success', message: '¡Gracias por registrarte! Pronto recibirás más recetas tradicionales.' });
+        setFormData({ name: '', email: '', phone: '' });
+      } else {
+        setNotification({ type: 'error', message: 'Hubo un error al registrar: ' + data });
+      }
+    } catch (error) {
+      setNotification({ type: 'error', message: 'Error de conexión. Intenta más tarde.' });
     }
-  } catch (error) {
-    alert('Error de conexión. Intenta más tarde.');
-  }
-};
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -71,6 +72,14 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   return (
     <section id="registro" className="w-full min-h-screen flex items-center justify-center bg-amber-50">
+      {notification && (
+        <div
+          className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded shadow-lg font-opensans text-lg transition-all
+            ${notification.type === 'success' ? 'bg-amber-600 text-white' : 'bg-red-600 text-white'}`}
+        >
+          {notification.message}
+        </div>
+      )}
       <div
         ref={sectionRef}
         className={`w-full max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden ${
