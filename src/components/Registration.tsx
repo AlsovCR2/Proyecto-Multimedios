@@ -18,15 +18,25 @@ const Registration = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert('¡Gracias por registrarte! Pronto recibirás más recetas tradicionales.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: ''
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  try {
+    const response = await fetch('https://api-backend-a4crheeqdbcxf4e3.canadacentral-01.azurewebsites.net/multimedios/api/usuarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
     });
-  };
+    const data = await response.json();
+    if (data.ok || response.ok) {
+      alert('¡Gracias por registrarte! Pronto recibirás más recetas tradicionales.');
+      setFormData({ name: '', email: '', phone: '' });
+    } else {
+      alert('Hubo un error al registrar. Intenta de nuevo.');
+    }
+  } catch (error) {
+    alert('Error de conexión. Intenta más tarde.');
+  }
+};
 
   useEffect(() => {
     const section = sectionRef.current;
