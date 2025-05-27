@@ -20,18 +20,24 @@ const Registration = () => {
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
+  // Mapea los nombres a los que espera el backend
+  const payload = {
+    nombre: formData.name,
+    correoElectronico: formData.email,
+    numeroTelefono: formData.phone
+  };
   try {
     const response = await fetch('https://api-backend-a4crheeqdbcxf4e3.canadacentral-01.azurewebsites.net/multimedios/api/usuarios', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(payload),
     });
-    const data = await response.json();
-    if (data.ok || response.ok) {
+    const data = await response.text();
+    if (response.ok) {
       alert('¡Gracias por registrarte! Pronto recibirás más recetas tradicionales.');
       setFormData({ name: '', email: '', phone: '' });
     } else {
-      alert('Hubo un error al registrar. Intenta de nuevo.');
+      alert('Hubo un error al registrar: ' + data);
     }
   } catch (error) {
     alert('Error de conexión. Intenta más tarde.');
