@@ -22,10 +22,11 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   // Mapea los nombres a los que espera el backend
   const payload = {
-    nombre: formData.name,
-    correoElectronico: formData.email,
-    numeroTelefono: formData.phone
-  };
+  idUsuario: "",
+  nombre: formData.name,
+  correoElectronico: formData.email,
+  numeroTelefono: formData.phone
+};
   try {
     const response = await fetch('https://api-backend-a4crheeqdbcxf4e3.canadacentral-01.azurewebsites.net/multimedios/api/usuarios', {
       method: 'POST',
